@@ -1,0 +1,12 @@
+
+@mixin border-radius($r) {
+  border-radius: $r;
+}
+
+@mixin border-radius-0 {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-radius: 0 !important;
+}

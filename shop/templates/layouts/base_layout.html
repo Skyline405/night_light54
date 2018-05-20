@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include "parts/head.html" %}
+</head>
+<body>
+
+{% include "parts/header.html" %}
+
+<main class="page-main pb-2">
+
+    <div class="container">
+        <div class="row">
+
+            <!-- Sidebar -->
+            {% block sidebar %}
+                <div class="col-12 col-lg-3 d-none d-lg-block px-2">
+                    <aside class="sticky-top py-2">
+                        {% include "parts/categories_list.html" with categories=categories %}
+                    </aside>
+                </div>
+            {% endblock %}
+
+            <!-- Content -->
+            <div class="col pb-4">
+
+                {% block content %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% include "parts/footer.html" %}
+
+{% block scripts_bottom %}{% endblock %}
+
+{% include "parts/external_scripts.html" %}
+
+<!-- notifications -->
+<div id="notify_container" class="position-fixed m-4"
+	 style="top:0; left:0; right:0; pointer-events:none;"
+></div>
+
+</body>
+</html>

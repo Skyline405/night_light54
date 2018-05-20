@@ -1,0 +1,25 @@
+{% extends "layouts/one_column_layout.html" %}
+
+{% block content %}
+	<div class="row mt-4">
+		<div class="col">
+			<h4>Вопросник</h4>
+		</div>
+	</div>
+
+	<div class="row">
+		{% for question in questions %}
+			{% if question.visible %}
+				<div class="col-12 col-md-6 col-lg-4 p-0 d-flex">
+					<div class="card m-2 flex-fill shadow-sm">
+						<div class="card-header font-weight-bold">{{ question.question }}</div>
+						<div class="card-body">
+							<div class="card-text">{{ question.answer }}</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+
+	</div>
+{% endblock %}

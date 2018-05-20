@@ -1,0 +1,112 @@
+{% extends "layouts/one_column_layout.html" %}
+
+{% block content %}
+
+	<div class="row my-3">
+		<div class="col">
+			<div class="h4">Корзина</div>
+		</div>
+	</div>
+
+	{% if cart and cart.count > 0 %}
+		<div class="row">
+			<div class="col">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Название</th>
+							<th scope="col">Кол-во</th>
+							<th scope="col">Цена (за единицу)</th>
+							<th scope="col">Сумма</th>
+							<th scope="col" width="1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in cart %}
+							<tr class="product_row">
+								<th scope="row">{{ forloop.counter }}</th>
+								<td>{{ item.product.title }}</td>
+								<td>{{ item.quantity }}</td>
+								<td>{{ item.product.price }} руб.</td>
+								<td>{{ item.total_price }} руб.</td>
+								<td>
+									<a class="btn btn-outline-danger border-0"
+											href="{% url 'remove_from_cart' item.product.id %}"
+									>
+										<i class="fas fa-trash"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row pb-4">
+			<div class="col flex-grow-1">
+				<span class="font-weight-bold">Итого:</span>
+				<span><span data-cart-total-price>{{ cart.summary }}</span> руб.</span>
+			</div>
+		</div>
+
+		<form action="{% url 'create_order' %}" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col">
+					{% for field in form %}
+						<div class="form-group">
+							{{ field.label }}
+							{{ field }}
+						</div>
+					{% endfor %}
+					{% comment %}<div class="form-group">
+						<label for="phone">Имя</label>
+						<input class="form-control" name="first_name"/>
+					</div>
+					<div class="form-group">
+						<label for="phone">Телефон</label>
+						<input class="form-control bfh-phone" id="phone" name="phone" type="tel"
+							   data-format="+7 (ddd) ddd-dd-dd"/>
+					</div>
+					<div class="form-group">
+						<label for="delivery_address">Аддрес доставки</label>
+						<input class="form-control" id="delivery_address" name="address"/>
+						<small id="delivery_address_help" class="form-text text-muted">
+							Стоимость доставки рассчитывается индивидуально
+						</small>
+					</div>
+					<div class="form-group">
+						<label for="order_comment">Комментарий</label>
+						<textarea maxlength="500" class="form-control" id="order_comment" aria-describedby="order_comment_help"
+								  name="comment"
+						></textarea>
+						<small id="order_comment_help" class="form-text text-muted">
+							Вы можете написать дополнительные пожелания к заказу
+						</small>
+					</div>{% endcomment %}
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col flex-grow-1"></div>
+				<div class="col flex-grow-0">
+					<input class="btn btn-orange" type="submit" name="confirm_order" value="Подтвердить">
+				</div>
+			</div>
+		</form>
+	{% else %}
+		<div class="row my-3">
+			<div class="col text-center">
+				<span class="h5">Пусто</span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col text-center">
+				<a class="btn btn-orange d-inline-block" href="{% url 'index' %}">Вернуться в каталог</a>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

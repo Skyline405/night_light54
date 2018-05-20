@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<header class="page-header">
+
+    <div class="container px-2 pt-2">
+        <div class="row py-2 justify-content-between" style="max-height: 150px">
+            <div class="col-2 col-md-3">
+                <img class="h-100" src="{% static "img/night_light_logo.png" %}" alt="logo">
+            </div>
+            <div class="col flex-grow-1 text-center d-none d-md-block">
+                <img class="img-fluid h-100" src="{% static "img/night_light_header.png" %}" alt="Night Light">
+            </div>
+            <div class="col flex-grow-0">
+                <a class="btn btn-orange float-right shadow-sm" href="{% url "shopping_cart" %}">
+					Корзина
+					<span class="badge badge-dark rounded" data-cart-count>
+						{% if cart %}{{ cart.count }}{% else %}0{% endif %}
+					</span>
+				</a>
+            </div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="row navbar navbar-expand-md navbar-light px-2 py-1">
+
+            <div class="col col-md-4 col-lg-3 p-2 ml-1 flex-grow-1 flex-lg-grow-0">
+
+				<div class="dropdown">
+					<button class="btn btn-dark dropdown-toggle btn-block d-flex justify-content-between align-items-center rounded-0"
+							id="category_dropdown" data-toggle="dropdown"
+					>
+						Ночники
+					</button>
+					<div class="dropdown-menu rounded-0" aria-labelledby="category_dropdown" style="z-index: 9999;">
+						<nav class="nav flex-column">
+							{% include "parts/categories_list.html" with categories=categories %}
+						</nav>
+					</div>
+				</div>
+
+            </div>
+
+            <button class="navbar-toggler mr-2"
+                    type="button" data-toggle="collapse"
+                    data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="col-12 col-md px-2 flex-grow-0 flex-md-grow-0 ml-md-auto">
+
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav underlined-active">
+                        {% include "parts/navigation.html" %}
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+    </div>
+
+</header>

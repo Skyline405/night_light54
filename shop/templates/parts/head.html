@@ -1,0 +1,22 @@
+{% block head %}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	{% block meta %}{% endblock %}
+
+	<title>
+		{% block page_title %}
+			Night Light
+		{% endblock %}
+	</title>
+
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static "bower_components/bootstrap/dist/css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/common.css" %}">
+    <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "bower_components/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static "js/bootstrap-formhelpers-phone.js" %}"></script>
+    <script src="{% static "js/common.js" %}"></script>
+
+	{% block scripts %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "layouts/one_column_layout.html" %}
+
+{% block content %}
+	{% load staticfiles %}
+	<div class="row pt-4">
+		<div class="col">
+			<h4>Доставка</h4>
+		</div>
+	</div>
+
+	<div class="row">
+
+		{% for variant in delivery_variants %}
+			{% if variant.visible %}
+				<div class="col-12 col-lg-4 p-0 d-flex">
+					<div class="card m-2 flex-fill shadow-sm">
+						<div class="card-header font-weight-bold">{{ variant.title }}</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<i class="fas fa-truck text-yellow-600 mr-2 text-shadow"></i>
+								Регион доставки: {{ variant.region }}
+							</li>
+							<li class="list-group-item">
+								<i class="fas fa-clock text-yellow-600 mr-2 text-shadow"></i>
+								Срок доставки: {{ variant.duration }}
+							</li>
+						</ul>
+						<div class="card-body">
+							{{ variant.description|linebreaks }}
+						</div>
+						<div class="card-footer d-flex justify-content-between align-items-center">
+							<i class="fas fa-ruble-sign text-yellow-600 text-shadow"></i>
+							<div class="card-text text-right font-weight-bold">{{ variant.cost }} руб.</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+
+	</div>
+
+	<div class="row py-4">
+		<div class="col px-2">
+			<p class="text-center">
+				<img height="32" src="{% static "img/cdek.png" %}" alt="CDEK">
+			</p>
+			<p>
+				Мы выбрали надежного партнера для доставки нашей продукции и отслеживаем отправленные заказы до момента получения Вами.
+				Доставка осуществляется курьерской компанией СДЭК (тел.: 8-800-250-04-05).
+			</p>
+			<p>
+				СДЭК – это более 15 лет на рынке курьерских услуг, более 5000 населенных пунктов, куда осуществляется доставка заказов, более 270 офисов (пунктов выдачи заказов).
+			</p>
+		</div>
+	</div>
+{% endblock %}

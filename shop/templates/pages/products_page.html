@@ -1,0 +1,65 @@
+{% extends "layouts/base_layout.html" %}
+
+{% block content %}
+	{% if products %}
+		<div class="row">
+
+			{% for product in products %}
+
+				{% if product.visible %}
+					<div class="col-12 col-md-4 p-0 d-flex">
+						<div class="card flex-fill m-2 shadow-sm">
+
+							<div class="card-img-top" style="min-height: 2rem;">
+								{% if product.photo %}
+									<img class="w-100" src="{{ product.photo.url }}">
+								{% endif %}
+
+								<div class="h4 position-absolute" style="top: 5px; left: -3px">
+
+									{% if product.discount %}
+										<span class="badge bg-red-400 d-block my-1 shadow">-{{ product.discount }}%</span>
+									{% endif %}
+
+									{% if product.best_flag %}
+										<span class="badge bg-amber-300 d-block my-1 shadow">Best</span>
+									{% endif %}
+
+								</div>
+							</div>
+							<div class="card-body">
+								<h5 class="card-title">{{ product.title }}</h5>
+								<h5 class="card-text">
+									{% if product.discount %}
+										<div class="text-danger text-decoration-through">{{ product.price }} руб.</div>
+									{% endif %}
+									<div class="text-success">{{ product.discount_price }} руб.</div>
+								</h5>
+							</div>
+							<div class="card-footer">
+								<div class="row justify-content-between flex-wrap">
+									<div class="col my-1">
+										<a href="{{ product.get_absolute_url }}" class="btn btn-outline-dark btn-block">Подробнее</a>
+									</div>
+									{% comment %}<div class="col my-1">
+										<button class="btn btn-orange btn-block"
+												data-action-to-cart="{% url 'add_to_cart' product.id %}"
+										>В корзину</button>
+									</div>{% endcomment %}
+								</div>
+							</div>
+
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% else %}
+		<div class="row">
+			<div class="col m-3">
+				<span class="h4">Нет ни одного товара</span>
+			</div>
+		</div>
+	{% endif %}
+
+{% endblock %}

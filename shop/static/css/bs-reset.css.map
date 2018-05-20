@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACA,IAAK;EACH,aAAa,EAAE,CAAC",
+"sources": ["bs-reset.scss"],
+"names": [],
+"file": "bs-reset.css"
+}

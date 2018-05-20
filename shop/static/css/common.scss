@@ -1,0 +1,98 @@
+@import "fa/css/fontawesome-all.min.css";
+
+@import "md-colors";
+@import "mixins";
+@import "bs-reset";
+
+// CSS
+
+.page-main {
+  background-color: #f0f0f0;
+}
+
+.page-footer {
+  a {
+    color: white;
+  }
+}
+
+/// Vars
+$mc-red-500: #F44336;
+$mc-red: $mc-red-500;
+
+
+/* =======[ BS Ext Pack ]======= */
+
+.text-decoration-through {
+  text-decoration: line-through;
+}
+
+// other
+
+.page-item {
+  a.page-link {
+    @include border-radius-0;
+    color: #212529 !important;
+  }
+  &.active {
+    .page-link {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+    }
+  }
+}
+
+
+// custom
+
+.underlined-active {
+  $border: 4px;
+  $mb: 8px - $border;
+
+  .nav-item {
+    padding-bottom: $mb;
+    border-bottom: $border solid transparent;
+    transition: border 0.4s;
+
+    &.active {
+      border-bottom-color: md-color(amber, 300);
+    }
+    &:hover {
+      border-bottom-color: md-color(amber, 200); //
+    }
+  }
+}
+
+.footer-nav {
+  .nav-link {
+    padding: 1px;
+  }
+}
+
+.text-shadow {
+  text-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+
+  &-sm {
+    text-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+  }
+  &-lg {
+    text-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+  }
+}
+
+// BUTTONS
+
+// cart button
+.btn-orange {
+  $bg: md-color(yellow, 600); // 700
+  $border: $bg;
+  $hover: md-color(yellow, 700); // 800
+
+  color: #212529 !important;
+  background-color: $bg;
+  border-color: $border;
+
+  &:hover {
+    background-color: $hover;
+  }
+}

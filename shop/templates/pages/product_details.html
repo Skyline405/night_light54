@@ -1,0 +1,70 @@
+{% extends "layouts/one_column_layout.html" %}
+
+{% block content %}
+	<div class="row py-2">
+
+		<!-- Image -->
+		<div class="col-12 col-md px-2 mb-4">
+			<section class="product_photo position-relative shadow-sm">
+				<img class="img-fluid" src="{{ product.photo.url }}" alt="product">
+
+				<div class="h4 position-absolute" style="top: 5px; left: -4px">
+					{% if product.discount %}
+						<span class="badge bg-red-400 d-block my-1 shadow">-{{ product.discount }}%</span>
+					{% endif %}
+
+					{% if product.best_flag %}
+						<span class="badge bg-amber-300 d-block my-1 shadow">Best</span>
+					{% endif %}
+				</div>
+			</section>
+		</div>
+
+		<!-- Description -->
+		<div class="col-12 col-md px-2">
+			<h4>{{ product.title }}</h4>
+
+			<div class="product_pricing my-4 h4">
+				{% if product.discount %}
+					<div class="text-danger text-decoration-through">{{ product.price }} руб.</div>
+				{% endif %}
+				<div class="text-success">{{ product.discount_price }} руб.</div>
+			</div>
+
+			<div class="product_description text-dark">
+				{{ product.description|linebreaks }}
+			</div>
+
+			<div class="product_params">
+
+				{% if product.props %}
+
+					{% for prop in product.props.all %}
+
+						<div class="product_param my-4">
+						<div class="h6">{{ prop.schema.title }}</div>
+						<select class="form-control form-control-dark" name="{{ prop.id }}">
+							{% for prop_value in prop.values.all %}
+								<option>{{ prop_value.value }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					{% endfor %}
+
+				{% endif %}
+
+				<div class="product_param my-4">
+					{% comment %}<div class="h6">Количество</div>
+					<input class="form-control d-inline-block" type="number" max="99" value="1" style="max-width: 4rem"/>{% endcomment %}
+					<button class="btn btn-orange btn-lg"
+							data-action-to-cart="{% url 'add_to_cart' product.id %}"
+					>В корзину</button>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
