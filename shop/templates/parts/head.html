@@ -10,13 +10,15 @@
 		{% endblock %}
 	</title>
 
+	<link rel="shortcut icon" href="http://example.com/myicon.ico" />
+
 	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static "bower_components/bootstrap/dist/css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "css/common.css" %}">
-    <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
-    <script src="{% static "bower_components/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
-    <script src="{% static "js/bootstrap-formhelpers-phone.js" %}"></script>
-    <script src="{% static "js/common.js" %}"></script>
+	<script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+	<script src="{% static "bower_components/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+	<script src="{% static "js/bootstrap-formhelpers-phone.js" %}"></script>
+	<script src="{% static "js/common.js" %}"></script>
 
 	{% block scripts %}{% endblock %}
 {% endblock %}
