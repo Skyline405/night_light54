@@ -65,9 +65,10 @@ class Product(BaseModel):
     )
     best_flag = models.BooleanField('"Best" флаг', default=False)
 
-    @property
     def discount_price(self):
         return self.price - (self.price * self.discount / 100)
+
+    discount_price.short_description = 'Цена со скидкой'
 
     @property
     def get_absolute_url(self):
