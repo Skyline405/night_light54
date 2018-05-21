@@ -1,5 +1,5 @@
 <a class="nav-link btn-light active" href="{% url 'index' %}">
-	<img class="rounded-circle mr-2 d-none d-lg-inline-block invisible"
+	<img src="" class="rounded-circle mr-2 d-none d-lg-inline-block invisible"
 		 width="32" height="32"
 	/>
 	<span>Все товары</span>
@@ -7,14 +7,12 @@
 
 {% if categories %}
 	{% for category in categories %}
-		{% if category.visible %}
-			<a class="nav-link btn-light" href="{{ category.get_absolute_url }}">
-				<img src="{{ category.image.url }}"
+		<a class="nav-link btn-light" href="{{ category.get_absolute_url }}">
+				<img src="{% if category.image %}{{ category.image.url }}{% endif %}"
 					 class="rounded-circle mr-2 d-none d-lg-inline-block {% if not category.image %}invisible{% endif %}"
 					 width="32" height="32"
 				/>
 				<span>{{ category.title }}</span>
 			</a>
-		{% endif %}
 	{% endfor %}
 {% endif %}

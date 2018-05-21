@@ -5,7 +5,7 @@ from shop.models import Category, Product, Order, OrderItem
 
 
 def _render(req, template, context):
-    categories = Category.objects.all()
+    categories = Category.objects.filter(visible=True)
     cart = Cart(req)
     return render(req, template, {
         'categories': categories,
