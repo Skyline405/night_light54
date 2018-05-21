@@ -1,3 +1,4 @@
+{% load staticfiles %}
 {% block head %}
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +11,8 @@
 		{% endblock %}
 	</title>
 
-	<link rel="shortcut icon" href="http://example.com/myicon.ico" />
+	<link rel="shortcut icon" href="{% static "night_light_logo.ico" %}" />
 
-	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static "bower_components/bootstrap/dist/css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "css/common.css" %}">
 	<script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
