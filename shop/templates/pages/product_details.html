@@ -4,9 +4,35 @@
 	<div class="row py-2">
 
 		<!-- Image -->
-		<div class="col-12 col-md px-2 mb-4">
+		<div class="col-12 col-md-5 px-2 mb-4">
 			<section class="product_photo position-relative shadow-sm">
-				<img class="img-fluid" src="{{ product.photo.url }}" alt="product">
+
+				<div id="productProtoCarousel" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for image in product.get_images %}
+							<li data-target="#productProtoCarousel" data-slide-to="{{ forloop.counter0 }}"
+								class="{% if forloop.counter0 == 0 %}active{% endif %}"
+							></li>
+						{% endfor %}
+					</ol>
+					<div class="carousel-inner">
+						{% for image in product.get_images %}
+							<div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+								<img class="d-block w-100" src="{{ image.url }}">
+							</div>
+						{% endfor %}
+					</div>
+					<a class="carousel-control-prev" href="#productProtoCarousel" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#productProtoCarousel" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+
+				<div></div>
 
 				<div class="h4 position-absolute" style="top: 5px; left: -4px">
 					{% if product.discount %}
@@ -21,7 +47,7 @@
 		</div>
 
 		<!-- Description -->
-		<div class="col-12 col-md px-2">
+		<div class="col-12 col-md-7 px-2">
 			<h4>{{ product.title }}</h4>
 
 			<div class="product_pricing my-4 h4">

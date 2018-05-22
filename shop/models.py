@@ -1,9 +1,8 @@
 from django.db import models
-from django.db.models import Count
 from django.urls import reverse
 
 from night_light.models import BaseModel
-from shop.utils.utils import make_upload_path
+from shop.utils.utils import make_upload_path, get_img_markup
 
 
 # Category
@@ -57,18 +56,25 @@ class Product(BaseModel):
         max_digits=8, decimal_places=2, default=0.00, verbose_name='Цена', help_text='Цена на товар в рублях'
     )
     discount = models.PositiveIntegerField('Скидка', default=0, help_text='Скидка на товар в процентах')
-    photo = models.ImageField(
-        upload_to=make_upload_path,
-        blank=True,
-        default='',
-        verbose_name='Фото товара'
-    )
+    # photo = models.ImageField(
+    #     upload_to=make_upload_path,
+    #     blank=True,
+    #     default='',
+    #     verbose_name='Фото товара'
+    # )
     best_flag = models.BooleanField('"Best" флаг', default=False)
 
     def discount_price(self):
         return self.price - (self.price * self.discount / 100)
 
     discount_price.short_description = 'Цена со скидкой'
+
+    def get_images(self):
+        return self.images.filter(visible=True)
+
+    def image(self):
+        images = self.get_images()
+        return images[0]
 
     @property
     def get_absolute_url(self):
@@ -81,6 +87,34 @@ class Product(BaseModel):
         ordering = ['created_at']  # TODO: needs new first?
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
+
+
+class ProductImage(BaseModel):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='images',
+        verbose_name='Товар',
+        help_text='Дополнительные картинки'
+    )
+    image = models.ImageField(
+        upload_to=make_upload_path,
+        verbose_name='Картинка'
+    )
+    ordering = models.PositiveIntegerField('Порядок', default=0, help_text='Порядок сортировки')
+
+    @property
+    def url(self):
+        return self.image.url
+
+    def image_prev(self):
+        return get_img_markup(self.image)
+    image_prev.short_description = 'Предпросмотр'
+
+    class Meta:
+        verbose_name = 'картинка'
+        verbose_name_plural = 'картинки'
+        managed = True
 
 
 # Order
@@ -109,7 +143,7 @@ class Order(BaseModel):
     )
 
     def total_price(self):
-        return sum(map(lambda item: item.product.price, self.items.all()))
+        return sum(map(lambda item: item.product.discount_price, self.items.all()))
 
     total_price.short_description = 'Общая сумма'
 

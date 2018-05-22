@@ -4,7 +4,9 @@ from cart.cart import Cart
 from shop.models import Category, Product, Order, OrderItem
 
 
-def _render(req, template, context):
+def _render(req, template, context=None):
+    if context is None:
+        context = {}
     categories = Category.objects.filter(visible=True)
     cart = Cart(req)
     return render(req, template, {
@@ -55,4 +57,4 @@ def create_order(req):
         order_item.save()
 
     cart.check_out()
-    return _render(req, 'pages/order_success.html', {})
+    return _render(req, 'pages/order_success.html')

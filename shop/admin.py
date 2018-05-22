@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
-from shop.models import Category, Product
+from shop.models import Category, Product, ProductImage
 from shop.models import Order, OrderItem
 from shop.utils.utils import get_img_markup
 
@@ -23,12 +24,22 @@ class CategoryAdmin(admin.ModelAdmin):
     image_prev.short_description = 'Картинка'
 
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+    # fields = ('image', 'image_prev',)
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    inlines = [ProductImageInline]
     view_on_site = True
-    list_display = ('__str__', 'category', 'price', 'discount_format', 'discount_price', 'count', 'visible', 'image')
+    list_display = ('__str__', 'category', 'price', 'discount_format', 'discount_price', 'count', 'visible',
+                    'image_prev')
     excludes = ('image',)
     list_filter = ('category', 'visible')
+    fields = ('title', 'description', 'count', 'category', 'price', 'discount', 'best_flag', 'image_prev_list',)
+    readonly_fields = ('image_prev_list',)
 
     def discount_format(self, obj):
         if obj.discount > 0:
@@ -37,10 +48,19 @@ class ProductAdmin(admin.ModelAdmin):
 
     discount_format.short_description = 'Скидка'
 
-    def image(self, obj):
-        return get_img_markup(obj.photo)
+    def image_prev(self, obj):
+        images = obj.get_images()
+        return get_img_markup(images[0])
 
-    image.short_description = 'Фото'
+    image_prev.short_description = 'Фото'
+
+    def image_prev_list(self, obj):
+        img_list = []
+        for image in obj.get_images():
+            img_list.append(get_img_markup(image, size=128))
+        return mark_safe(' '.join(img_list))
+
+    image_prev_list.short_description = 'Картинки'
 
 
 class OrderItemInline(admin.TabularInline):
