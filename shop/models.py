@@ -146,7 +146,7 @@ class Order(BaseModel):
     )
 
     def total_price(self):
-        return sum(map(lambda item: item.product.discount_price, self.items.all()))
+        return sum(map(lambda item: item.product.discount_price(), self.items.all()))
 
     total_price.short_description = 'Общая сумма'
 
