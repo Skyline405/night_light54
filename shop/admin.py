@@ -50,7 +50,9 @@ class ProductAdmin(admin.ModelAdmin):
 
     def image_prev(self, obj):
         images = obj.get_images()
-        return get_img_markup(images[0])
+        if len(images) > 0:
+            return get_img_markup(images[0])
+        return ''
 
     image_prev.short_description = 'Фото'
 
