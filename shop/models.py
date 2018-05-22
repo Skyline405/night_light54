@@ -72,9 +72,12 @@ class Product(BaseModel):
     def get_images(self):
         return self.images.filter(visible=True)
 
+    @property
     def image(self):
         images = self.get_images()
-        return images[0]
+        if len(images) > 0:
+            return images[0]
+        return None
 
     @property
     def get_absolute_url(self):
