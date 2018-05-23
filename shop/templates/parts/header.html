@@ -4,7 +4,9 @@
     <div class="container px-2 pt-2">
         <div class="row py-2 justify-content-between" style="max-height: 150px">
             <div class="col-2 col-md-3">
-                <img class="h-100" src="{% static "img/night_light_logo.png" %}" alt="logo">
+				<a href="{% url 'index' %}">
+					<img class="h-100" src="{% static "img/night_light_logo.png" %}" alt="logo">
+				</a>
             </div>
             <div class="col flex-grow-1 text-center d-none d-md-block">
                 <img class="img-fluid h-100" src="{% static "img/night_light_header.png" %}" alt="Night Light">
