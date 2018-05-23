@@ -32,7 +32,8 @@ def product_details(req, product_id):
     if not product:
         return nl_render(req, 'pages/404.html')
 
-    return nl_render(req, 'pages/product_details.html', {'product': product})
+    category = Category.objects.get(pk=product.category.id)
+    return nl_render(req, 'pages/product_details.html', {'product': product, 'current_category': category})
 
 
 def category_products(req, category_id):
