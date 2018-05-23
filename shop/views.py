@@ -4,7 +4,7 @@ from cart.cart import Cart
 from shop.models import Category, Product, Order, OrderItem
 
 
-def _render(req, template, context=None):
+def nl_render(req, template, context=None):
     if context is None:
         context = {}
     categories = Category.objects.filter(visible=True)
@@ -23,23 +23,23 @@ def index(req):
 
 def product_list(req):
     products = Product.objects.all()
-    return _render(req, 'pages/products_page.html', {'products': products})
+    return nl_render(req, 'pages/products_page.html', {'products': products})
 
 
 def product_details(req, product_id):
     product = Product.objects.get(pk=product_id)
-    return _render(req, 'pages/product_details.html', {'product': product})
+    return nl_render(req, 'pages/product_details.html', {'product': product})
 
 
 def category_products(req, category_id):
     products = Product.objects.filter(category=category_id)
     # products = Product.objects.all()
-    return _render(req, 'pages/products_page.html', {'products': products})
+    return nl_render(req, 'pages/products_page.html', {'products': products})
 
 
 def create_order(req):
     if req.method != 'POST':
-        return _render(req, 'pages/access_denied.html')
+        return nl_render(req, 'pages/access_denied.html')
 
     p = dict(req.POST)
     cart = Cart(req)
@@ -57,4 +57,4 @@ def create_order(req):
         order_item.save()
 
     cart.check_out()
-    return _render(req, 'pages/order_success.html')
+    return nl_render(req, 'pages/order_success.html')

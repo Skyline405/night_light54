@@ -7,7 +7,7 @@
 		<div class="col-12 col-md-5 px-2 mb-4">
 			<section class="product_photo position-relative shadow-sm">
 
-				<div id="productProtoCarousel" class="carousel slide" data-ride="carousel">
+				<div id="productPhotoCarousel" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
 						{% for image in product.get_images %}
 							<li data-target="#productProtoCarousel" data-slide-to="{{ forloop.counter0 }}"
@@ -22,11 +22,11 @@
 							</div>
 						{% endfor %}
 					</div>
-					<a class="carousel-control-prev" href="#productProtoCarousel" role="button" data-slide="prev">
+					<a class="carousel-control-prev" href="#productPhotoCarousel" role="button" data-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						<span class="sr-only">Previous</span>
 					</a>
-					<a class="carousel-control-next" href="#productProtoCarousel" role="button" data-slide="next">
+					<a class="carousel-control-next" href="#productPhotoCarousel" role="button" data-slide="next">
 						<span class="carousel-control-next-icon" aria-hidden="true"></span>
 						<span class="sr-only">Next</span>
 					</a>

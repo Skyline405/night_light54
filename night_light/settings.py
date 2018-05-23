@@ -18,7 +18,7 @@ import environ
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # base = environ.Path(__file__)
-env = environ.Env(DEBUG=(bool, False),)
+env = environ.Env(DEBUG=(bool, False), )
 environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
@@ -127,3 +127,12 @@ PRODUCTS_IMG_DIR = 'shop/images/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'))
+
+
+# VK Settings
+
+VK_TOKEN = env('VK_TOKEN')
+VK_API_VERSION = 5.76
+VK_API_URL = 'https://api.vk.com/method/{method}?{params}&access_token={token}&v={version}'
+VK_GROUP_ID = 155721733
+VK_TOPIC_ID = 38115815

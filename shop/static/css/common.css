@@ -3078,6 +3078,12 @@
   background-color: #e9ecef;
   border-color: #dee2e6; }
 
+.ml-auto-even:nth-child(even) {
+  margin-left: auto !important; }
+
+.ml-auto-:nth-child(odd) {
+  margin-left: auto !important; }
+
 .underlined-active .nav-item {
   padding-bottom: 4px;
   border-bottom: 4px solid transparent;

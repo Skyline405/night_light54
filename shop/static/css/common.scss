@@ -42,6 +42,14 @@ $mc-red: $mc-red-500;
   }
 }
 
+.ml-auto-even:nth-child(even) {
+  margin-left: auto !important;
+}
+
+.ml-auto-odd:nth-child(odd) {
+  margin-left: auto !important;
+}
+
 
 // custom
 
