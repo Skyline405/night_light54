@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 from night_light.models import BaseModel
-from shop.utils.utils import make_upload_path, get_img_markup
+from utils.utils import make_upload_path, get_img_markup
 
 
 # Category

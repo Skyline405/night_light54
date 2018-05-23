@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 
 from shop.models import Category, Product, ProductImage
 from shop.models import Order, OrderItem
-from shop.utils.utils import get_img_markup
+from utils.utils import get_img_markup
 
 
 # Models admin

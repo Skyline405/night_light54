@@ -1,9 +1,65 @@
 {% extends "layouts/one_column_layout.html" %}
 
+{% load filters %}
 {% block content %}
 	<div class="row pt-4">
 		<div class="col">
 			<h4>Отзывы</h4>
 		</div>
 	</div>
+
+	<div class="row">
+		{% for feedback in feedback_list %}
+			<div class="col-12 col-lg-8 py-2 ml-auto-even">
+				<div class="card">
+					<div class="card-header font-weight-bold">
+						{{ users|get_item:feedback.from_id }}
+					</div>
+					<div class="card-body row">
+						<div class="col-8 {% if forloop.counter|divisibleby:2 %}order-1{% endif %}">
+							{{ feedback.text }}
+						</div>
+						<div class="col-4 {% if forloop.counter|divisibleby:2 %}order-0{% endif %}">
+							{% if feedback.attachments %}
+
+								<div id="feedback_attachments" class="carousel slide" data-ride="carousel">
+									<div class="carousel-inner">
+										{% for image in feedback.attachments %}
+											{% if image.type == 'photo' %}
+												<div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+													<img class="d-block w-100" src="{{ image.photo.photo_604 }}">
+												</div>
+											{% endif %}
+										{% endfor %}
+									</div>
+									<a class="carousel-control-prev" href="#feedback_attachments" role="button" data-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="sr-only">Previous</span>
+									</a>
+									<a class="carousel-control-next" href="#feedback_attachments" role="button" data-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="sr-only">Next</span>
+									</a>
+								</div>
+
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="row pt-5 pb-2">
+		<div class="col text-center">
+			<a class="btn btn-orange d-inline-block"
+			   href="https://vk.com/topic-155721733_38115815"
+			   target="_blank"
+			>
+				<i class="fab fa-vk mr-2"></i>
+				Оставить отзыв
+			</a>
+		</div>
+	</div>
+
 {% endblock %}
