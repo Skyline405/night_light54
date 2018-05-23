@@ -28,14 +28,21 @@ def product_list(req):
 
 def product_details(req, product_id):
     product = Product.objects.get(pk=product_id, visible=True, category__visible=True)
+
     if not product:
         return nl_render(req, 'pages/404.html')
+
     return nl_render(req, 'pages/product_details.html', {'product': product})
 
 
 def category_products(req, category_id):
+    category = Category.objects.get(pk=category_id, visible=True)
+
+    if not category:
+        return nl_render(req, 'pages/404.html')
+
     products = Product.objects.filter(category=category_id, visible=True, category__visible=True)
-    return nl_render(req, 'pages/products_page.html', {'products': products})
+    return nl_render(req, 'pages/products_page.html', {'products': products, 'current_category': category})
 
 
 def create_order(req):

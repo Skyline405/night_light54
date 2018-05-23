@@ -1,4 +1,4 @@
-<a class="nav-link btn-light active" href="{% url 'index' %}">
+<a class="nav-link btn-light {% if not current_category %}active{% endif %}" href="{% url 'index' %}">
 	<img src="" class="rounded-circle mr-2 d-none d-lg-inline-block invisible"
 		 width="32" height="32"
 	/>
@@ -7,12 +7,14 @@
 
 {% if categories %}
 	{% for category in categories %}
-		<a class="nav-link btn-light" href="{{ category.get_absolute_url }}">
-				<img src="{% if category.image %}{{ category.image.url }}{% endif %}"
-					 class="rounded-circle mr-2 d-none d-lg-inline-block {% if not category.image %}invisible{% endif %}"
-					 width="32" height="32"
-				/>
-				<span>{{ category.title }}</span>
-			</a>
+		<a class="nav-link btn-light {% if current_category.id == category.id %}active{% endif %}"
+		   href="{{ category.get_absolute_url }}"
+		>
+			<img src="{% if category.image %}{{ category.image.url }}{% endif %}"
+				 class="rounded-circle mr-2 d-none d-lg-inline-block {% if not category.image %}invisible{% endif %}"
+				 width="32" height="32"
+			/>
+			<span>{{ category.title }}</span>
+		</a>
 	{% endfor %}
 {% endif %}
