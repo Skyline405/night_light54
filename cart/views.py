@@ -9,7 +9,7 @@ from cart.forms import CartForm
 def add_to_cart(req, product_id, quantity=1):
     product = Product.objects.get(id=product_id)
     cart = Cart(req)
-    cart.add(product, product.price, quantity)
+    cart.add(product, product.discount_price(), quantity)
     return JsonResponse({'success': True, 'count': cart.count()})
 
 
