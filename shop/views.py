@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from cart.cart import Cart
 from shop.models import Category, Product, Order, OrderItem
@@ -22,18 +22,19 @@ def index(req):
 
 
 def product_list(req):
-    products = Product.objects.all()
+    products = Product.objects.filter(visible=True, category__visible=True)
     return nl_render(req, 'pages/products_page.html', {'products': products})
 
 
 def product_details(req, product_id):
-    product = Product.objects.get(pk=product_id)
+    product = Product.objects.get(pk=product_id, visible=True, category__visible=True)
+    if not product:
+        return nl_render(req, 'pages/404.html')
     return nl_render(req, 'pages/product_details.html', {'product': product})
 
 
 def category_products(req, category_id):
-    products = Product.objects.filter(category=category_id)
-    # products = Product.objects.all()
+    products = Product.objects.filter(category=category_id, visible=True, category__visible=True)
     return nl_render(req, 'pages/products_page.html', {'products': products})
 
 
