@@ -76,8 +76,10 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]
     list_display = ('__str__', 'products_count', 'status', 'total_price')
     list_filter = ('status',)
+    readonly_fields = ('comment', 'first_name', 'phone', 'total_price')
+    fields = ('comment', 'first_name', 'phone', 'status', 'total_price')
 
     def products_count(self, obj):
-        return obj.items.count()
+        return '%s/%s' % (obj.items.count(), sum(map(lambda item: item.count, obj.items.all())))
 
-    products_count.short_description = 'Кол-во товаров'
+    products_count.short_description = 'Кол-во (позиций/общее)'
