@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from shop.models import Category, Product, ProductImage
 from shop.models import Order, OrderItem
 from utils.utils import get_img_markup
+from shop.actions import export_as_csv_action
 
 
 # Models admin
@@ -40,6 +41,10 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'visible')
     fields = ('title', 'description', 'count', 'category', 'price', 'old_price', 'best_flag', 'image_prev_list',)
     readonly_fields = ('image_prev_list',)
+    actions = [export_as_csv_action(
+        "Экспорт в CSV",
+        fields=('title', 'description', 'count', 'category', 'price', 'old_price', 'best_flag',)
+    )]
 
     def discount_format(self, obj):
         if obj.discount > 0:
