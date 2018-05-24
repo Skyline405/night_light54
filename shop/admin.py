@@ -34,16 +34,16 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     view_on_site = True
-    list_display = ('__str__', 'category', 'price', 'discount_format', 'discount_price', 'count', 'visible',
+    list_display = ('__str__', 'category', 'old_price', 'discount', 'price', 'count', 'visible',
                     'image_prev')
     excludes = ('image',)
     list_filter = ('category', 'visible')
-    fields = ('title', 'description', 'count', 'category', 'price', 'discount', 'best_flag', 'image_prev_list',)
+    fields = ('title', 'description', 'count', 'category', 'price', 'old_price', 'best_flag', 'image_prev_list',)
     readonly_fields = ('image_prev_list',)
 
     def discount_format(self, obj):
         if obj.discount > 0:
-            return '-{}%'.format(obj.discount)
+            return '-{} руб.'.format(obj.discount)
         return '-'
 
     discount_format.short_description = 'Скидка'

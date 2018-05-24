@@ -18,7 +18,7 @@
 								<div class="h4 position-absolute" style="top: 5px; left: -3px">
 
 									{% if product.discount %}
-										<span class="badge bg-red-400 d-block my-1 shadow">-{{ product.discount }}%</span>
+										<span class="badge bg-red-400 d-block my-1 shadow">-{{ product.discount_formatted }}</span>
 									{% endif %}
 
 									{% if product.best_flag %}
@@ -31,9 +31,9 @@
 								<h5 class="card-title">{{ product.title }}</h5>
 								<h5 class="card-text">
 									{% if product.discount %}
-										<div class="text-danger text-decoration-through">{{ product.price }} руб.</div>
+										<div class="text-danger text-decoration-through">{{ product.old_price }} руб.</div>
 									{% endif %}
-									<div class="text-success">{{ product.discount_price }} руб.</div>
+									<div class="text-success">{{ product.price }} руб.</div>
 								</h5>
 							</div>
 							<div class="card-footer">

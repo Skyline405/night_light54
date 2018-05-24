@@ -52,22 +52,20 @@ class Product(BaseModel):
         related_name='products',
         verbose_name='Категория'
     )
-    price = models.DecimalField(
-        max_digits=8, decimal_places=2, default=0.00, verbose_name='Цена', help_text='Цена на товар в рублях'
-    )
-    discount = models.PositiveIntegerField('Скидка', default=0, help_text='Скидка на товар в процентах')
-    # photo = models.ImageField(
-    #     upload_to=make_upload_path,
-    #     blank=True,
-    #     default='',
-    #     verbose_name='Фото товара'
-    # )
+
+    old_price = models.DecimalField('Старая цена', max_digits=8, decimal_places=2, default=0.00)
+    price = models.DecimalField('Цена', max_digits=8, decimal_places=2, default=0.00)
+
     best_flag = models.BooleanField('"Best" флаг', default=False)
 
-    def discount_price(self):
-        return self.price - (self.price * self.discount / 100)
+    def discount(self):
+        return max([0, self.old_price - self.price])
 
-    discount_price.short_description = 'Цена со скидкой'
+    discount.short_description = 'Скидка'
+
+    @property
+    def discount_formatted(self):
+        return '%s руб.' % max([0, self.old_price - self.price])
 
     def get_images(self):
         return self.images.filter(visible=True)

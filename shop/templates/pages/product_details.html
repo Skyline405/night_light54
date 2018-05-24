@@ -36,7 +36,7 @@
 
 				<div class="h4 position-absolute" style="top: 5px; left: -4px">
 					{% if product.discount %}
-						<span class="badge bg-red-400 d-block my-1 shadow">-{{ product.discount }}%</span>
+						<span class="badge bg-red-400 d-block my-1 shadow">-{{ product.discount_formatted }}</span>
 					{% endif %}
 
 					{% if product.best_flag %}
@@ -52,9 +52,9 @@
 
 			<div class="product_pricing my-4 h4">
 				{% if product.discount %}
-					<div class="text-danger text-decoration-through">{{ product.price }} руб.</div>
+					<div class="text-danger text-decoration-through">{{ product.old_price }} руб.</div>
 				{% endif %}
-				<div class="text-success">{{ product.discount_price }} руб.</div>
+				<div class="text-success">{{ product.price }} руб.</div>
 			</div>
 
 			<div class="product_description text-dark">
