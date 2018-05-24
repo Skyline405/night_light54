@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 from cart.cart import Cart
@@ -23,6 +24,12 @@ def index(req):
 
 def product_list(req):
     products = Product.objects.filter(visible=True, category__visible=True)
+
+    paginator = Paginator(products, 9)
+
+    page = req.GET.get('page')
+    products = paginator.get_page(page)
+
     return nl_render(req, 'pages/products_page.html', {'products': products})
 
 

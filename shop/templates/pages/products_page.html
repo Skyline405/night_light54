@@ -54,6 +54,9 @@
 				{% endif %}
 			{% endfor %}
 		</div>
+
+		{% include 'parts/pagination.html' with items=products %}
+
 	{% else %}
 		<div class="row">
 			<div class="col m-3">
