@@ -65,7 +65,7 @@ class Product(BaseModel):
 
     @property
     def discount_formatted(self):
-        return '%s руб.' % max([0, self.old_price - self.price])
+        return '%s руб.' % int(max([0, self.old_price - self.price]))
 
     def get_images(self):
         return self.images.filter(visible=True)
