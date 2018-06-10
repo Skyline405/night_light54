@@ -1,5 +1,7 @@
 {% extends "layouts/one_column_layout.html" %}
 
+{% load filters %}
+
 {% block content %}
 	<div class="row py-2">
 
@@ -65,16 +67,17 @@
 
 				{% if product.props %}
 
-					{% for prop in product.props.all %}
+					{% for title in product.grouped_props %}
+						{% assign prop product.grouped_props|get_item:title %}
 
 						<div class="product_param my-4">
-						<div class="h6">{{ prop.schema.title }}</div>
-						<select class="form-control form-control-dark" name="{{ prop.id }}">
-							{% for prop_value in prop.values.all %}
-								<option>{{ prop_value.value }}</option>
-							{% endfor %}
-						</select>
-					</div>
+							<div class="h6">{{ title }}</div>
+							<select class="form-control form-control-dark" name="{{ title }}" data-prod-prop>
+								{% for value in prop %}
+									<option>{{ value.value }}</option>
+								{% endfor %}
+							</select>
+						</div>
 
 					{% endfor %}
 

@@ -72,11 +72,12 @@ def create_order(req):
     order.save()
 
     for item in cart:
-        order_item = OrderItem()
-        order_item.order = order
-        order_item.product = item.product
-        order_item.count = item.quantity
-        order_item.save()
+        order.items.add(item.product)
+        # order_item = OrderItem()
+        # order_item.order = order
+        # order_item.product = item.product
+        # order_item.count = item.quantity
+        # order_item.save()
 
     cart.check_out()
     return nl_render(req, 'pages/order_success.html')

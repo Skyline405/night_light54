@@ -41,11 +41,11 @@
 									<div class="col my-1">
 										<a href="{{ product.get_absolute_url }}" class="btn btn-outline-dark btn-block">Подробнее</a>
 									</div>
-									<div class="col my-1">
+									{% comment %}<div class="col my-1">
 										<button class="btn btn-orange btn-block"
 												data-action-to-cart="{% url 'add_to_cart' product.id %}"
 										>В корзину</button>
-									</div>
+									</div>{% endcomment %}
 								</div>
 							</div>
 
