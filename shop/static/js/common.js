@@ -4,8 +4,14 @@ $(function() {
         const el = e.target;
         const data = el.dataset;
 
-        $.get(data.actionToCart)
-            .then(function(res) {
+        const $props = $('[data-prod-prop]');
+
+        const props = [];
+        $props.each((key, $prop) => { props.push({name: $prop.name, value: $prop.value}) });
+
+        $.get(data.actionToCart, {
+            props: JSON.stringify(props)
+        }).then(function(res) {
                 if (res.count) updateCartCount(res.count);
                 showAlert('Товар успешно добавлен в корзину', 'success');
             })

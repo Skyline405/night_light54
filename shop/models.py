@@ -81,6 +81,18 @@ class Product(BaseModel):
     def get_absolute_url(self):
         return reverse('product_details', args=[str(self.id)])
 
+    def grouped_props(self):
+        props = list(self.props.filter(visible=True))
+
+        res = {}
+
+        for prop in props:
+            if not (prop.title in res):
+                res[prop.title] = []
+            res[prop.title].append(prop)
+
+        return res
+
     def __str__(self):
         return self.title
 
@@ -110,6 +122,7 @@ class ProductImage(BaseModel):
 
     def image_prev(self):
         return get_img_markup(self.image)
+
     image_prev.short_description = 'Предпросмотр'
 
     class Meta:
@@ -144,7 +157,7 @@ class Order(BaseModel):
     )
 
     def total_price(self):
-        return sum(map(lambda item: item.product.discount_price() * item.count, self.items.all()))
+        return sum(map(lambda item: item.product.price * item.count, self.items.all()))
 
     total_price.short_description = 'Общая сумма'
 
@@ -157,9 +170,10 @@ class Order(BaseModel):
 
 
 class OrderItem(BaseModel):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Заказ", related_name="items")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Заказ", related_name="items", null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
     count = models.PositiveIntegerField("Кол-во", default=1)
+    props = models.ManyToManyField('ProductProp', null=True, blank=True, default=None)
 
     def __str__(self):
         return self.product.title
@@ -167,3 +181,21 @@ class OrderItem(BaseModel):
     class Meta:
         verbose_name = 'позиция'
         verbose_name_plural = 'позиции'
+
+
+class ProductProp(BaseModel):
+    title = models.CharField('Название', default='', max_length=255)
+    value = models.CharField('Значение', default='', max_length=255)
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='props',
+        verbose_name="Товар"
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'параметр'
+        verbose_name_plural = 'параметры'

@@ -16,6 +16,7 @@
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col">Название</th>
+							<th scope="col">Параметры</th>
 							<th scope="col">Кол-во</th>
 							<th scope="col">Цена (за единицу)</th>
 							<th scope="col">Сумма</th>
@@ -26,9 +27,14 @@
 						{% for item in cart %}
 							<tr class="product_row">
 								<th scope="row">{{ forloop.counter }}</th>
-								<td>{{ item.product.title }}</td>
+								<td>{{ item.product.product.title }}</td>
+								<td>
+									{% for prop in item.product.props.all %}
+										<div><b>{{ prop.title }}</b>: {{ prop.value }}</div>
+									{% endfor %}
+								</td>
 								<td>{{ item.quantity }}</td>
-								<td>{{ item.product.discount_price }} руб.</td>
+								<td>{{ item.unit_price }} руб.</td>
 								<td>{{ item.total_price }} руб.</td>
 								<td>
 									<a class="btn btn-outline-danger border-0"
@@ -47,7 +53,7 @@
 		<div class="row pb-4">
 			<div class="col flex-grow-1">
 				<span class="font-weight-bold">Итого:</span>
-				<span><span data-cart-total-price>{{ cart.summary }}</span> руб.</span>
+				<span class="text-success"><span data-cart-total-price>{{ cart.summary }}</span> руб.</span>
 			</div>
 		</div>
 

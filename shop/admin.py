@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from shop.models import Category, Product, ProductImage
+from shop.models import Category, Product, ProductImage, ProductProp
 from shop.models import Order, OrderItem
 from utils.utils import get_img_markup
 
@@ -30,9 +30,15 @@ class ProductImageInline(admin.TabularInline):
     # fields = ('image', 'image_prev',)
 
 
+class ProductPropInline(admin.TabularInline):
+    model = ProductProp
+    extra = 1
+    # fields = ('image', 'image_prev',)
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline, ProductPropInline]
     view_on_site = True
     list_display = ('__str__', 'category', 'old_price', 'discount', 'price', 'count', 'visible',
                     'image_prev')
@@ -69,6 +75,16 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
     exclude = ['visible']
     extra = 0
+    fields = ('product', 'count', 'props_list')
+    readonly_fields = ('props_list',)
+
+    def props_list(self, obj):
+        res = []
+        for prop in obj.props.all():
+            res.append('%s: %s' % (prop.title, prop.value))
+        return '\n'.join(res)
+
+    props_list.short_description = 'Параметры'
 
 
 @admin.register(Order)
@@ -80,6 +96,6 @@ class OrderAdmin(admin.ModelAdmin):
     fields = ('comment', 'first_name', 'phone', 'status', 'total_price')
 
     def products_count(self, obj):
-        return '%s/%s' % (obj.items.count(), sum(map(lambda item: item.count, obj.items.all())))
+        return '%s' % (obj.items.count(),)
 
-    products_count.short_description = 'Кол-во (позиций/общее)'
+    products_count.short_description = 'Кол-во'
