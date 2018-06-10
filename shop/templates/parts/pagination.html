@@ -1,5 +1,6 @@
 <!-- Pagination -->
 {% load filters %}
+{% if items and items.paginator %}
 <div class="row my-4 justify-content-center">
 
     <nav>
@@ -25,3 +26,4 @@
     </nav>
 
 </div>
+{% endif %}
