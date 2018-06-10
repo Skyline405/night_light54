@@ -1,0 +1,29 @@
+<!-- Pagination -->
+{% load filters %}
+{% if items and items.paginator %}
+<div class="row my-4 justify-content-center">
+
+    <nav>
+        <ul class="pagination">
+			{% if items.has_previous %}
+				<li class="page-item">
+					<a class="page-link" href="?page={{ items.previous_page_number }}">&leftarrow; Назад</a>
+				</li>
+			{% endif %}
+
+			{% for num_page in items.paginator.num_pages|do_range:1 %}
+				<li class="page-item {% if num_page == items.number %}active{% endif %}">
+					<a class="page-link" href="?page={{ num_page }}">{{ num_page }}</a>
+				</li>
+			{% endfor %}
+
+			{% if items.has_next %}
+            	<li class="page-item">
+					<a class="page-link" href="?page={{ items.next_page_number }}">Вперед &rightarrow;</a>
+				</li>
+            {% endif %}
+        </ul>
+    </nav>
+
+</div>
+{% endif %}
