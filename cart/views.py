@@ -21,8 +21,10 @@ def add_to_cart(req, product_id, quantity=1):
     order_item.save()
 
     for prop in props:
-        pp = ProductProp.objects.get(title=prop['name'], product_id=product.id, value=prop['value'])
-        order_item.props.add(pp)
+        pps = list(ProductProp.objects.filter(title=prop['name'], product_id=product.id, value=prop['value']))
+        if len(pps):
+            pp = pps[0]
+            order_item.props.add(pp)
 
     cart = Cart(req)
     cart.add(order_item, product.price, quantity)
