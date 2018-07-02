@@ -136,3 +136,12 @@ VK_API_VERSION = 5.76
 VK_API_URL = 'https://api.vk.com/method/{method}?{params}&access_token={token}&v={version}'
 VK_GROUP_ID = 155721733
 VK_TOPIC_ID = 38115815
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'Night-Light54 <admin@night-light54.ru>'
