@@ -15,6 +15,7 @@ def nl_render(req, template, context=None):
     return render(req, template, {
         'categories': categories,
         'cart': cart,
+        'contact_email': settings.ADMIN_EMAIL,
         **context
     })
 
@@ -68,9 +69,17 @@ def create_order(req):
     p = dict(req.POST)
     cart = Cart(req)
     order = Order()
-    order.first_name = p['first_name'][0],
-    order.phone = p['phone_number'][0],
+    order.first_name = p['first_name'][0]
+    order.phone = p['phone_number'][0]
+    order.city = p['city'][0]
+    order.street = p['street'][0]
+    order.building = p['building'][0]
     order.comment = p['comment'][0]
+
+    last_order = Order.objects.all().order_by('-id')[0]
+    if last_order:
+        order.number = last_order.number + 1
+
     order.save()
 
     for item in cart:
@@ -78,19 +87,22 @@ def create_order(req):
 
     cart.check_out()
 
-    subj = 'Получен заказ #%s на сумму %s' % (order.id, order.total_price(),)
+    subj = 'Получен заказ #%s на сумму %s' % (order.number, order.total_price(),)
     message = '''
-        Поступил заказ #{id} на сумму {price}.
+        Поступил заказ #{number} на сумму {price}.
         ФИО: {name}
         Телефон: {phone}
+        Адрес: {address}
         Комментарий: {comment}
     '''.format(
-        id=order.id,
+        number=order.number,
         price=order.total_price(),
-        name=order.first_name,
-        phone=order.phone,
+        name=order.first_name[0],
+        phone=order.phone[0],
         comment=order.comment,
+        address=order.address()
     )
+
     send_mail(subj, message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL], fail_silently=True)
 
     return nl_render(req, 'pages/order_success.html')
