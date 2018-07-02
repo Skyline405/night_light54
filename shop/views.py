@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 
 from cart.cart import Cart
 from shop.models import Category, Product, Order, OrderItem
+from shop.utils.email import send_mail
 
 
 def nl_render(req, template, context=None):
@@ -80,4 +81,21 @@ def create_order(req):
         # order_item.save()
 
     cart.check_out()
+
+    send_mail(
+        subj='Получен заказ #%s на сумму %s' % (order.id, order.total_price(),),
+        text='''
+            Поступил заказ #{id} на сумму {price}.
+            ФИО: {name}
+            Телефон: {phone}
+            Комментарий: {comment}
+        '''.format(
+            id=order.id,
+            price=order.total_price(),
+            name=order.first_name,
+            phone=order.phone,
+            comment=order.comment,
+        )
+    )
+
     return nl_render(req, 'pages/order_success.html')
