@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
@@ -74,29 +75,8 @@ def create_order(req):
 
     for item in cart:
         order.items.add(item.product)
-        # order_item = OrderItem()
-        # order_item.order = order
-        # order_item.product = item.product
-        # order_item.count = item.quantity
-        # order_item.save()
 
     cart.check_out()
-
-    # send_mail(
-    #     subj='Получен заказ #%s на сумму %s' % (order.id, order.total_price(),),
-    #     text='''
-    #         Поступил заказ #{id} на сумму {price}.
-    #         ФИО: {name}
-    #         Телефон: {phone}
-    #         Комментарий: {comment}
-    #     '''.format(
-    #         id=order.id,
-    #         price=order.total_price(),
-    #         name=order.first_name,
-    #         phone=order.phone,
-    #         comment=order.comment,
-    #     )
-    # )
 
     subj = 'Получен заказ #%s на сумму %s' % (order.id, order.total_price(),)
     message = '''
@@ -111,8 +91,6 @@ def create_order(req):
         phone=order.phone,
         comment=order.comment,
     )
-    from_email = 'admin@night-light54.ru'
-
-    send_mail(subj, message, from_email, ['ars.sky@mail.ru'], fail_silently=False)
+    send_mail(subj, message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL], fail_silently=True)
 
     return nl_render(req, 'pages/order_success.html')

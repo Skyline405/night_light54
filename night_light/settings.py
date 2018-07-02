@@ -145,3 +145,5 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'Night-Light54 <admin@night-light54.ru>'
+
+ADMIN_EMAIL = env('ADMIN_EMAIL')
