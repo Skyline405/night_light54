@@ -15,6 +15,9 @@ class CartForm(forms.Form):
             'data-format': '+7 (ddd) ddd-dd-dd'
         })
     )
+    city = forms.CharField(label='Город', max_length=64, widget=forms.TextInput(attrs=attrs))
+    street = forms.CharField(label='Улица', max_length=64, widget=forms.TextInput(attrs=attrs))
+    building = forms.CharField(label='Дом', required=False, max_length=4, widget=forms.TextInput(attrs=attrs))
     comment = forms.CharField(label='Комментарий', required=False, widget=forms.Textarea(attrs={
         **attrs,
         'rows': 5

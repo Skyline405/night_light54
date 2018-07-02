@@ -40,11 +40,13 @@ class ProductPropInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, ProductPropInline]
     view_on_site = True
-    list_display = ('__str__', 'category', 'old_price', 'discount', 'price', 'count', 'visible',
+    list_display = ('__str__', 'ordering', 'category', 'old_price', 'discount', 'price', 'count', 'visible',
                     'image_prev')
     excludes = ('image',)
     list_filter = ('category', 'visible')
-    fields = ('title', 'description', 'count', 'category', 'price', 'old_price', 'best_flag', 'image_prev_list',)
+    fields = (
+        'ordering', 'title', 'description', 'count', 'category', 'price', 'old_price', 'best_flag', 'image_prev_list',
+    )
     readonly_fields = ('image_prev_list',)
 
     def discount_format(self, obj):
@@ -92,10 +94,11 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]
     list_display = ('__str__', 'products_count', 'status', 'total_price')
     list_filter = ('status',)
-    readonly_fields = ('comment', 'first_name', 'phone', 'total_price')
-    fields = ('comment', 'first_name', 'phone', 'status', 'total_price')
+    readonly_fields = ('comment', 'first_name', 'phone', 'total_price', 'address')
+    fields = ('number', 'comment', 'first_name', 'phone', 'address', 'status', 'total_price')
 
     def products_count(self, obj):
         return '%s' % (obj.items.count(),)
 
     products_count.short_description = 'Кол-во'
+

@@ -1,12 +1,12 @@
 from django.db import models
 from django.urls import reverse
 
-from night_light.models import BaseModel
+from night_light.models import BaseModel, OrderingBaseModel
 from utils.utils import make_upload_path, get_img_markup
 
 
 # Category
-class Category(BaseModel):
+class Category(OrderingBaseModel):
     title = models.CharField('Название', default='', max_length=255)
     description = models.TextField(
         verbose_name='Описание',
@@ -21,7 +21,6 @@ class Category(BaseModel):
         verbose_name='Картинка',
         help_text='Картинка, которая будет отображаться рядом с названием категории'
     )
-    ordering = models.PositiveIntegerField('Порядок', default=0, help_text='Чем меньше значение, тем выше категория')
 
     @property
     def products_count(self):
@@ -41,7 +40,7 @@ class Category(BaseModel):
 
 
 # Product
-class Product(BaseModel):
+class Product(OrderingBaseModel):
     title = models.CharField('Название', default='', max_length=255)
     description = models.TextField('Описание', default='')
     count = models.PositiveIntegerField('Кол-во в наличии', default=0)
@@ -97,7 +96,7 @@ class Product(BaseModel):
         return self.title
 
     class Meta:
-        ordering = ['created_at']  # TODO: needs new first?
+        ordering = ['ordering']
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
 
@@ -146,9 +145,13 @@ STATUS_CHOICES = (
 
 
 class Order(BaseModel):
+    number = models.PositiveIntegerField('Номер заказа', default=0)
     comment = models.TextField('Комментарий', blank=True)
     first_name = models.CharField('Имя', default='', max_length=255)
     phone = models.CharField('Телефон', default='', max_length=255)
+    city = models.CharField('Город', max_length=255)
+    street = models.CharField('Улица', default='', max_length=255)
+    building = models.CharField('Дом', default='', max_length=255)
     status = models.CharField(
         'Статус',
         max_length=20,
@@ -161,8 +164,15 @@ class Order(BaseModel):
 
     total_price.short_description = 'Общая сумма'
 
+    def address(self):
+        return 'г. {city}, ул. {street}, д. {building}'.format(
+            city=self.city, street=self.street, building=self.building
+        )
+
+    address.short_description = 'Адрес'
+
     def __str__(self):
-        return 'Заказ #%s' % (self.id,)
+        return 'Заказ #%s (№%s)' % (self.id, self.number)
 
     class Meta:
         verbose_name = 'Заказ'
@@ -183,7 +193,7 @@ class OrderItem(BaseModel):
         verbose_name_plural = 'позиции'
 
 
-class ProductProp(BaseModel):
+class ProductProp(OrderingBaseModel):
     title = models.CharField('Название', default='', max_length=255)
     value = models.CharField('Значение', default='', max_length=255)
     product = models.ForeignKey(
@@ -197,5 +207,6 @@ class ProductProp(BaseModel):
         return self.title
 
     class Meta:
+        ordering = ['ordering']
         verbose_name = 'параметр'
         verbose_name_plural = 'параметры'

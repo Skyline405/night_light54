@@ -12,8 +12,9 @@ class BaseModel(models.Model):
 
 
 class OrderingBaseModel(BaseModel):
-    visible = models.BooleanField(_('Видимость'), default=True)
-    ordering = models.IntegerField(_('Порядок'), default=0, blank=True, null=True)
+    ordering = models.IntegerField(_('Порядок'), default=0, blank=True, null=True,
+                                   help_text='Чем меньше значение, тем выше')
 
     class Meta:
+        ordering = ['ordering']
         abstract = True

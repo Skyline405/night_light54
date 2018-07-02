@@ -64,9 +64,17 @@
 					{% for field in form %}
 						<div class="form-group">
 							{{ field.label }}
+							{% if field.field.required %}
+								<sup class="text-red-600">*</sup>
+							{% endif %}
 							{{ field }}
 						</div>
 					{% endfor %}
+
+					<div class="text-red-600 font-italic">
+						* - поля обязательные к заполнению
+					</div>
+
 					{% comment %}<div class="form-group">
 						<label for="phone">Имя</label>
 						<input class="form-control" name="first_name"/>
