@@ -5,7 +5,7 @@ attrs = {'class': 'form-control'}
 
 
 class CartForm(forms.Form):
-    first_name = forms.CharField(label='Имя', max_length=32, widget=forms.TextInput(attrs=attrs))
+    first_name = forms.CharField(label='ФИО', max_length=32, widget=forms.TextInput(attrs=attrs))
     phone_number = forms.RegexField(
         label='Телефон',
         regex=r'^\d{9,15}$',
